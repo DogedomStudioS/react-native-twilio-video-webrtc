@@ -368,7 +368,7 @@ public class CustomTwilioVideoView extends View implements LifecycleEventListene
         if (localVideoTrack != null) {
             connectOptionsBuilder.videoTracks(Collections.singletonList(localVideoTrack));
         }
-
+        connectOptionsBuilder.dominantSpeakerEnabled = true;
         room = Video.connect(getContext(), connectOptionsBuilder.build(), roomListener());
     }
 

@@ -314,6 +314,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)accessToken roomName:(NSString *)roomName)
       builder.audioTracks = @[self.localAudioTrack];
     }
 
+      builder.dominantSpeakerEnabled = true;
     builder.roomName = roomName;
   }];
 
