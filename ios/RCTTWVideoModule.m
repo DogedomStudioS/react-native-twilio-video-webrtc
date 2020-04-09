@@ -25,6 +25,8 @@ static NSString* participantDisabledVideoTrack     = @"participantDisabledVideoT
 static NSString* participantEnabledAudioTrack      = @"participantEnabledAudioTrack";
 static NSString* participantDisabledAudioTrack     = @"participantDisabledAudioTrack";
 
+static NSString* dominantSpeakerDidChange = @"dominantSpeakerDidChange";
+
 static NSString* cameraDidStart               = @"cameraDidStart";
 static NSString* cameraWasInterrupted         = @"cameraWasInterrupted";
 static NSString* cameraDidStopRunning         = @"cameraDidStopRunning";
@@ -66,6 +68,7 @@ RCT_EXPORT_MODULE();
     participantDisabledVideoTrack,
     participantEnabledAudioTrack,
     participantDisabledAudioTrack,
+    dominantSpeakerDidChange,
     cameraDidStopRunning,
     cameraDidStart,
     cameraWasInterrupted,
@@ -387,6 +390,10 @@ RCT_EXPORT_METHOD(disconnect) {
   }
 
   [self sendEventCheckingListenerWithName:roomDidFailToConnect body:body];
+}
+
+-(void)room:(TVIRoom *)room dominantSpeakerDidChange:(nullable TVIRemoteParticipant *)participant {
+    [self sendEventCheckingListenerWithName:dominantSpeakerDidChange body:@{ @"participant": [participant toJSON] }];
 }
 
 

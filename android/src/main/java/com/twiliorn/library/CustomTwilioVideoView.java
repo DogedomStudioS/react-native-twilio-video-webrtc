@@ -116,6 +116,7 @@ public class CustomTwilioVideoView extends View implements LifecycleEventListene
         String ON_CONNECTED = "onRoomDidConnect";
         String ON_CONNECT_FAILURE = "onRoomDidFailToConnect";
         String ON_DISCONNECTED = "onRoomDidDisconnect";
+        String ON_DOMINANT_SPEAKER_CHANGED = "onDominantSpeakerChanged";
         String ON_PARTICIPANT_CONNECTED = "onRoomParticipantDidConnect";
         String ON_PARTICIPANT_DISCONNECTED = "onRoomParticipantDidDisconnect";
         String ON_PARTICIPANT_ADDED_VIDEO_TRACK = "onParticipantAddedVideoTrack";
@@ -710,6 +711,11 @@ public class CustomTwilioVideoView extends View implements LifecycleEventListene
             }
 
             @Override
+            void onDominantSpeakerChanged(@NonNull Room room, @Nullable RemoteParticipant remoteParticipant) {
+                changeDominantSpeaker(remoteParticipant);
+            }
+
+            @Override
             public void onParticipantDisconnected(Room room, RemoteParticipant participant) {
                 removeParticipant(room, participant);
             }
@@ -753,6 +759,16 @@ public class CustomTwilioVideoView extends View implements LifecycleEventListene
         pushEvent(this, ON_PARTICIPANT_DISCONNECTED, event);
         //something about this breaking.
         //participant.setListener(null);
+    }
+
+    /*
+    * Called when the dominant speaker changes
+     */
+
+    private void changeDominantSpeaker(RemoteParticipant participant) {
+        WritableMap event = new WritableNativeMap();
+        event.putMap("participant", buildParticipant(participant));
+        pushEvent(this, ON_DOMINANT_SPEAKER_CHANGED, event);
     }
 
 
